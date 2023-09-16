@@ -6,13 +6,15 @@ using UnityEngine;
 public class Dot : MonoBehaviour, IMovable, IClickable
 {
     public static event Action<Dot> OnClicked;
-
+    public static event Action<Dot> OnDestroy;
     public Transform Transform { get; set; }
     public Vector2 Position => Transform.position;
     public BoundingBox BoundingBox { get; set; }
     public Vector2 StartPos { get; set; }
     public Vector2 TargetPos { get; set; }
     public float Speed { get; set; }
+
+    [SerializeField] private Animation _anim;
 
     float elapsedTime = 0;
     public void Initialize(Transform trform, BoundingBox boundingBox, float speed)
@@ -46,6 +48,12 @@ public class Dot : MonoBehaviour, IMovable, IClickable
     public void OnClick()
     {
         OnClicked?.Invoke(this);
+    }
+    public void Destroy()
+    {
+        _anim.Play("Dot_Destroy");
+        Destroy(gameObject,1f);
+        OnDestroy?.Invoke(this);
     }
    
 }

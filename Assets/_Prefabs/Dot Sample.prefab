@@ -31,7 +31,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.6450445, y: 1.7598083, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.56, y: 0.56}
+  m_Size: {x: 1.42, y: 1.37}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -99,6 +99,7 @@ Animation:
   m_Animation: {fileID: 7400000, guid: f39ce1c5d96de4f41a763a8b90adab82, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: f39ce1c5d96de4f41a763a8b90adab82, type: 2}
+  - {fileID: 7400000, guid: 21e02df0537e31a42a4170f428316735, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -150,3 +151,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6557bd41667a6c4086108415b8896a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _anim: {fileID: 2545969118238334154}

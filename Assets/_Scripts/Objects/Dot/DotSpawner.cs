@@ -14,9 +14,19 @@ public class DotSpawner : MonoBehaviour
     private void Start()
     {
         dotList = new List<Dot>(spawnAttr.spawnLimit);
+        Dot.OnDestroy += Dot_OnDestroy;
 
         SpawnDot();
         StartCoroutine(SpawnRoutine());
+    }
+    private void OnDestroy()
+    {
+        Dot.OnDestroy -= Dot_OnDestroy;
+    }
+
+    private void Dot_OnDestroy(Dot dot)
+    {
+        dotList.Remove(dot);
     }
 
     private IEnumerator SpawnRoutine()
