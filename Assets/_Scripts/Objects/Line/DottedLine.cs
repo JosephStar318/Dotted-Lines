@@ -6,6 +6,7 @@ using UnityEngine;
 public class DottedLine : MonoBehaviour
 {
     public static event Action<Vector2, int> OnLineCleared;
+    public static event Action OnDotStackPushed;
 
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform selectionTransform;
@@ -61,6 +62,7 @@ public class DottedLine : MonoBehaviour
                 else
                 {
                     dotStack.Push(targetDot);
+                    OnDotStackPushed?.Invoke();
                 }
 
                 if (targetDotQueue.Count > 0) targetDot = targetDotQueue.Dequeue();
@@ -121,9 +123,14 @@ public class DottedLine : MonoBehaviour
             selectionTransform.position = dot.Position;
             selectionTransform.gameObject.SetActive(true);
             dotStack.Push(dot);
+            OnDotStackPushed?.Invoke();
         }
         else
         {
+            if(dotStack.Peek() == dot || dotStack.Peek() == targetDot)
+            {
+                return;
+            }
             if (targetDot == null)
             {
                 targetDot = dot;

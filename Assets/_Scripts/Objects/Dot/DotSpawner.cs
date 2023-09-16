@@ -16,14 +16,16 @@ public class DotSpawner : MonoBehaviour
         dotList = new List<Dot>(spawnAttr.spawnLimit);
         Dot.OnDestroy += Dot_OnDestroy;
         GameManager.OnGameOver += GameManager_OnGameOver;
+        GameManager.OnDifficultyChanged += GameManager_OnDifficultyChanged;
 
-        SpawnDot();
+        SpawnMultipleDots(10);
         StartCoroutine(SpawnRoutine());
     }
     private void OnDestroy()
     {
         Dot.OnDestroy -= Dot_OnDestroy;
         GameManager.OnGameOver -= GameManager_OnGameOver;
+        GameManager.OnDifficultyChanged -= GameManager_OnDifficultyChanged;
     }
 
     private void FixedUpdate()
@@ -39,6 +41,10 @@ public class DotSpawner : MonoBehaviour
     {
         _isGameOver = true;
         StopAllCoroutines();
+    }
+    private void GameManager_OnDifficultyChanged(int difficultyIndex)
+    {
+        spawnAttr.baseSpeed += difficultyIndex * 0.1f;
     }
 
     private void Dot_OnDestroy(Dot dot)
@@ -60,6 +66,13 @@ public class DotSpawner : MonoBehaviour
 
             elapsedTime += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
+        }
+    }
+    private void SpawnMultipleDots(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            SpawnDot();
         }
     }
     private void SpawnDot()

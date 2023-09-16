@@ -43,6 +43,7 @@ public class Dot : MonoBehaviour, IMovable, IClickable
 
     public void OnClick()
     {
+
         OnClicked?.Invoke(this);
     }
     public void Destroy()
