@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static event Action OnGameOver;
+    public static event Action OnGamePaused;
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -29,7 +32,12 @@ public class GameManager : MonoBehaviour
     }
     private void LineCollisionChecker_OnLineCollision(Vector2 pos)
     {
-        Time.timeScale = 0f;
         Debug.Log("Game over");
+        OnGameOver?.Invoke();
+    }
+    public void PauseGame()
+    {
+
+        OnGamePaused?.Invoke();
     }
 }

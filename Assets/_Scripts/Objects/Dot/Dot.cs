@@ -27,10 +27,6 @@ public class Dot : MonoBehaviour, IMovable, IClickable
         TargetPos = BoundingBox.GetRandomPos();
     }
 
-    private void FixedUpdate()
-    {
-        Move();
-    }
     public void Move()
     {
         float time = 100 / Speed;
@@ -52,6 +48,7 @@ public class Dot : MonoBehaviour, IMovable, IClickable
     public void Destroy()
     {
         _anim.Play("Dot_Destroy");
+        GetComponent<Collider2D>().enabled = false;
         Destroy(gameObject,1f);
         OnDestroy?.Invoke(this);
     }

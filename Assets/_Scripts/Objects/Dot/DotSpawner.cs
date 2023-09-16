@@ -10,11 +10,12 @@ public class DotSpawner : MonoBehaviour
     [SerializeField] private SpawnAttr spawnAttr;
 
     private List<Dot> dotList;
-
+    private bool _isGameOver;
     private void Start()
     {
         dotList = new List<Dot>(spawnAttr.spawnLimit);
         Dot.OnDestroy += Dot_OnDestroy;
+        GameManager.OnGameOver += GameManager_OnGameOver;
 
         SpawnDot();
         StartCoroutine(SpawnRoutine());
@@ -22,6 +23,22 @@ public class DotSpawner : MonoBehaviour
     private void OnDestroy()
     {
         Dot.OnDestroy -= Dot_OnDestroy;
+        GameManager.OnGameOver -= GameManager_OnGameOver;
+    }
+
+    private void FixedUpdate()
+    {
+        if (_isGameOver) return;
+
+        foreach (Dot dot in dotList)
+        {
+            dot.Move();
+        }
+    }
+    private void GameManager_OnGameOver()
+    {
+        _isGameOver = true;
+        StopAllCoroutines();
     }
 
     private void Dot_OnDestroy(Dot dot)

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DottedLine : MonoBehaviour
 {
+    public static event Action<Vector2, int> OnLineCleared;
+
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform selectionTransform;
 
@@ -136,6 +138,7 @@ public class DottedLine : MonoBehaviour
     private void DestroyUntilDot(Dot dot)
     {
         bool dotDestroyed = false;
+        int destroyCounter = 0;
         while (dotDestroyed == false)
         {
             Dot tempDot = dotStack.Pop();
@@ -145,11 +148,13 @@ public class DottedLine : MonoBehaviour
             }
             tempDot.Destroy();
             points.RemoveAt(points.Count - 1);
+            destroyCounter++;
         }
 
         if (dotStack.Count == 0)
         {
             selectionTransform.gameObject.SetActive(false);
         }
+        OnLineCleared?.Invoke(dot.Position, destroyCounter);
     }
 }
