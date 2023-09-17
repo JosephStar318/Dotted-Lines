@@ -127,7 +127,8 @@ public class DottedLine : MonoBehaviour
         }
         else
         {
-            if(dotStack.Peek() == dot || dotStack.Peek() == targetDot)
+            Dot lastDot = dotStack.Peek();
+            if (dot == lastDot || dot == targetDot)
             {
                 return;
             }

@@ -12,13 +12,25 @@ public class LineCollisionChecker : MonoBehaviour
     private DottedLine _dottedLine;
 
     private RaycastHit2D[] results = new RaycastHit2D[3];
+
+    private void OnEnable()
+    {
+        GameManager.OnGameOver += GameManager_OnGameOver;
+        GameManager.OnGamePaused += GameManager_OnGamePaused;
+        GameManager.OnGameUnpaused += GameManager_OnGameUnpaused;
+    }
+    private void OnDisable()
+    {
+        GameManager.OnGameOver -= GameManager_OnGameOver;
+        GameManager.OnGamePaused -= GameManager_OnGamePaused;
+        GameManager.OnGameUnpaused -= GameManager_OnGameUnpaused;
+    }
     private void Start()
     {
         _dottedLine = GetComponent<DottedLine>();
     }
     private void FixedUpdate()
     {
-      
         List<Vector3> points = _dottedLine.GetPoints;
 
         for (int i = 0; i < points.Count - 1; i++)
@@ -57,5 +69,20 @@ public class LineCollisionChecker : MonoBehaviour
             }
         }
 
+       
+    }
+
+    private void GameManager_OnGamePaused()
+    {
+        this.enabled = false;
+    }
+
+    private void GameManager_OnGameOver()
+    {
+        this.enabled = false;
+    }
+    private void GameManager_OnGameUnpaused()
+    {
+        this.enabled = true;
     }
 }

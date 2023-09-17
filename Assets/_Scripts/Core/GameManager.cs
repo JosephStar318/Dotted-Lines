@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static event Action OnGameOver;
     public static event Action<int> OnDifficultyChanged;
     public static event Action OnGamePaused;
+    public static event Action OnGameUnpaused;
     public static GameManager Instance { get; private set; }
 
 
@@ -53,11 +55,21 @@ public class GameManager : MonoBehaviour
     private void LineCollisionChecker_OnLineCollision(Vector2 pos)
     {
         Debug.Log("Game over");
+        UIManager.Show<GameOverPanel>();
         OnGameOver?.Invoke();
     }
     public void PauseGame()
     {
 
         OnGamePaused?.Invoke();
+    }
+    public void UnpauseGame()
+    {
+
+        OnGameUnpaused?.Invoke();
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
