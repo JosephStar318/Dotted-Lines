@@ -866,6 +866,7 @@ GameObject:
   - component: {fileID: 444823748}
   - component: {fileID: 444823747}
   - component: {fileID: 444823746}
+  - component: {fileID: 444823749}
   m_Layer: 0
   m_Name: Home Button
   m_TagString: Untagged
@@ -974,6 +975,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 444823744}
   m_CullTransparentMesh: 1
+--- !u!114 &444823749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444823744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51d4f71626c9a34caac2150bc9f605c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 3445d29d64e48a04abeddfe899989395, type: 3}
 --- !u!1 &462380974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,9 +1018,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e44e63673d4484283cb9ddad484c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pixelDistToDetect: 50
+  pixelDistToDetect: 150
   touchPeriod: 0.05
-  moveDelay: 0.2
+  moveDelay: 0.1
 --- !u!4 &462380976
 Transform:
   m_ObjectHideFlags: 0
@@ -1806,7 +1821,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8648663940357940212, guid: 05f24995e7a4ee14eb4719140a545361, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 876660821}
   m_SourcePrefab: {fileID: 100100000, guid: 05f24995e7a4ee14eb4719140a545361, type: 3}
 --- !u!224 &861294070 stripped
 RectTransform:
@@ -1818,12 +1836,31 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8140698384976480011, guid: 05f24995e7a4ee14eb4719140a545361, type: 3}
   m_PrefabInstance: {fileID: 861294069}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 876660817}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1717f7e4b152003498359503dc2c4847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &876660817 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8648663940357940212, guid: 05f24995e7a4ee14eb4719140a545361, type: 3}
+  m_PrefabInstance: {fileID: 861294069}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &876660821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876660817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51d4f71626c9a34caac2150bc9f605c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 3445d29d64e48a04abeddfe899989395, type: 3}
 --- !u!1 &891062325
 GameObject:
   m_ObjectHideFlags: 0
@@ -2006,6 +2043,7 @@ GameObject:
   - component: {fileID: 904728342}
   - component: {fileID: 904728341}
   - component: {fileID: 904728340}
+  - component: {fileID: 904728343}
   m_Layer: 0
   m_Name: Speed Up Button
   m_TagString: Untagged
@@ -2114,6 +2152,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904728338}
   m_CullTransparentMesh: 1
+--- !u!114 &904728343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904728338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51d4f71626c9a34caac2150bc9f605c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 3445d29d64e48a04abeddfe899989395, type: 3}
 --- !u!1 &1082623117
 GameObject:
   m_ObjectHideFlags: 0
@@ -2240,6 +2292,7 @@ GameObject:
   - component: {fileID: 1256821510}
   - component: {fileID: 1256821509}
   - component: {fileID: 1256821508}
+  - component: {fileID: 1256821511}
   m_Layer: 0
   m_Name: Pause Button
   m_TagString: Untagged
@@ -2263,7 +2316,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -78, y: -79}
+  m_AnchoredPosition: {x: -125, y: -162}
   m_SizeDelta: {x: 90, y: 109}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1256821508
@@ -2348,6 +2401,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256821506}
   m_CullTransparentMesh: 1
+--- !u!114 &1256821511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256821506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51d4f71626c9a34caac2150bc9f605c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 3445d29d64e48a04abeddfe899989395, type: 3}
 --- !u!1 &1262161141
 GameObject:
   m_ObjectHideFlags: 0
@@ -2470,6 +2537,7 @@ GameObject:
   - component: {fileID: 1291022850}
   - component: {fileID: 1291022849}
   - component: {fileID: 1291022848}
+  - component: {fileID: 1291022851}
   m_Layer: 0
   m_Name: Spawn Dot Button
   m_TagString: Untagged
@@ -2578,6 +2646,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291022846}
   m_CullTransparentMesh: 1
+--- !u!114 &1291022851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291022846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51d4f71626c9a34caac2150bc9f605c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 3445d29d64e48a04abeddfe899989395, type: 3}
 --- !u!1 &1344684277
 GameObject:
   m_ObjectHideFlags: 0
@@ -2649,8 +2731,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -184207129
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3fc5a30d9b5bbf741b3a134fb61fabcd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.56078434}
@@ -2757,9 +2839,9 @@ RectTransform:
   - {fileID: 371264284}
   m_Father: {fileID: 570566575}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -464}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 570}
   m_SizeDelta: {x: 0, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1446139089
@@ -2887,7 +2969,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -100}
+  m_AnchoredPosition: {x: 250, y: -173}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1599365047
@@ -3034,9 +3116,9 @@ RectTransform:
   - {fileID: 2020526229}
   m_Father: {fileID: 1856365186}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -464}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 570}
   m_SizeDelta: {x: 0, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1652577217
@@ -3089,6 +3171,7 @@ GameObject:
   - component: {fileID: 1663783585}
   - component: {fileID: 1663783584}
   - component: {fileID: 1663783583}
+  - component: {fileID: 1663783586}
   m_Layer: 0
   m_Name: Replay Button
   m_TagString: Untagged
@@ -3197,6 +3280,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1663783581}
   m_CullTransparentMesh: 1
+--- !u!114 &1663783586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663783581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51d4f71626c9a34caac2150bc9f605c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 3445d29d64e48a04abeddfe899989395, type: 3}
 --- !u!1 &1856365185
 GameObject:
   m_ObjectHideFlags: 0
@@ -3342,6 +3439,7 @@ GameObject:
   - component: {fileID: 1971557461}
   - component: {fileID: 1971557460}
   - component: {fileID: 1971557459}
+  - component: {fileID: 1971557462}
   m_Layer: 0
   m_Name: Replay Button
   m_TagString: Untagged
@@ -3450,6 +3548,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971557457}
   m_CullTransparentMesh: 1
+--- !u!114 &1971557462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971557457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51d4f71626c9a34caac2150bc9f605c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 3445d29d64e48a04abeddfe899989395, type: 3}
 --- !u!1 &2020526228
 GameObject:
   m_ObjectHideFlags: 0
@@ -3511,6 +3623,7 @@ GameObject:
   - component: {fileID: 2039524723}
   - component: {fileID: 2039524722}
   - component: {fileID: 2039524721}
+  - component: {fileID: 2039524724}
   m_Layer: 0
   m_Name: Continue Button
   m_TagString: Untagged
@@ -3619,6 +3732,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2039524719}
   m_CullTransparentMesh: 1
+--- !u!114 &2039524724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039524719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51d4f71626c9a34caac2150bc9f605c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 3445d29d64e48a04abeddfe899989395, type: 3}
 --- !u!1 &2058606210
 GameObject:
   m_ObjectHideFlags: 0
@@ -3653,7 +3780,7 @@ MonoBehaviour:
     upperLimit: {x: 2, y: 4}
   dotPrefab: {fileID: 931521465058458548, guid: 51a41ba9c01959846b156eb2a0ae5fa0, type: 3}
   spawnAttr:
-    spawnSpeed: 1
+    spawnSpeed: 0.5
     baseSpeed: 5
     speedRange: 2
     spawnLimit: 20

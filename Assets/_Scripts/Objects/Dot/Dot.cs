@@ -13,6 +13,7 @@ public class Dot : MonoBehaviour, IMovable, IClickable
     public Vector2 StartPos { get; set; }
     public Vector2 TargetPos { get; set; }
     public float Speed { get; set; }
+    public bool IsDirty { get; private set; }
 
     [SerializeField] private Animation _anim;
 
@@ -50,6 +51,7 @@ public class Dot : MonoBehaviour, IMovable, IClickable
     {
         _anim.Play("Dot_Destroy");
         GetComponent<Collider2D>().enabled = false;
+        IsDirty = true;
         Destroy(gameObject,1f);
         OnDestroy?.Invoke(this);
     }

@@ -42,10 +42,15 @@ public class DottedLine : MonoBehaviour
     {
         this.enabled = false;
     }
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(1);
+        SelectFirstDot(FindObjectOfType<Dot>());
+    }
     private void FixedUpdate()
     {
         UpdatePositions();
-        UpdateSelectionTransform();
+        UpdateDots();
         UpdateLineRenderer();
         UpdateColliders();
     }
@@ -61,7 +66,7 @@ public class DottedLine : MonoBehaviour
             points.Add(dot.Position);
         }
     }
-    private void UpdateSelectionTransform()
+    private void UpdateDots()
     {
         if (targetDot != null)
         {
@@ -74,7 +79,7 @@ public class DottedLine : MonoBehaviour
 
                 if (dotStack.Contains(targetDot))
                 {
-                    DestroyUntilDot(targetDot);
+                    DestroyLoopingDots(targetDot);
                 }
                 else
                 {
@@ -137,36 +142,22 @@ public class DottedLine : MonoBehaviour
     private void Dot_OnClicked(Dot dot)
     {
         if (dotStack.Count == 0)
-        {
-            selectionTransform.position = dot.Position;
-            selectionTransform.gameObject.SetActive(true);
-            dotStack.Push(dot);
-            OnDotStackPushed?.Invoke();
-        }
+            SelectFirstDot(dot);
     }
+
+    private void SelectFirstDot(Dot dot)
+    {
+        selectionTransform.position = dot.Position;
+        selectionTransform.gameObject.SetActive(true);
+        dotStack.Push(dot);
+        OnDotStackPushed?.Invoke();
+    }
+
     private void InputHelper_OnSwipe(Vector2 dir)
     {
         if (dotStack.Count == 0) return;
-        Dot lastDot = dotStack.Peek();
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(lastDot.Position, 0.1f, dir, 100, dotLayer);
-        if (hits.Length > 0)
+        if (FindDotInDirection(dir, out Dot dot))
         {
-            Dot dot = hits[0].transform.GetComponent<Dot>();
-            if(dot == lastDot && hits.Length > 1)
-            {
-                dot = hits[1].transform.GetComponent<Dot>();
-            }
-
-            //constraints
-            if (dot == lastDot || dot == targetDot)
-            {
-                return;
-            }
-            if(secondLastDot != null && secondLastDot == dot)
-            {
-                return;
-            }
-
             if (targetDot == null)
             {
                 targetDot = dot;
@@ -178,7 +169,57 @@ public class DottedLine : MonoBehaviour
         }
     }
 
-    private void DestroyUntilDot(Dot dot)
+    private bool FindDotInDirection(Vector2 dir, out Dot dot)
+    {
+        Dot lastDot = dotStack.Peek();
+        dot = null;
+        float minEstimation = float.MaxValue;
+        Dot estimatedDot = null;
+
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(lastDot.Position, 0.5f, dir, 100, dotLayer);
+        if (hits.Length > 0)
+        {
+            foreach (RaycastHit2D hit in hits)
+            {
+                dot = hit.transform.GetComponent<Dot>();
+
+                //Make sure it's not selecting itself
+                if (dot == lastDot || dot == targetDot)
+                {
+                    continue;
+                }
+                //Make sure it's not selecting the previous dot
+                if (secondLastDot != null && secondLastDot == dot)
+                {
+                    continue;
+                }
+
+                float angle = Vector2.Angle(dot.Position - lastDot.Position, dir);
+                //Make sure dot is in the direction
+                if (angle > 10)
+                {
+                    continue;
+                }
+
+                //Take most inline of the closest dots
+
+                float distance = Vector2.Distance(dot.Position, lastDot.Position);
+                float estimation = angle * 0.2f + distance * 0.8f; // distance oriented
+
+                if (estimation < minEstimation)
+                {
+                    minEstimation = estimation;
+                    estimatedDot = dot;
+                }
+
+            }
+            dot = estimatedDot;
+            return true;
+        }
+        return false;
+    }
+
+    private void DestroyLoopingDots(Dot dot)
     {
         bool dotDestroyed = false;
         int destroyCounter = 0;
@@ -193,11 +234,26 @@ public class DottedLine : MonoBehaviour
             points.RemoveAt(points.Count - 1);
             destroyCounter++;
         }
+        OnLineCleared?.Invoke(dot.Position, destroyCounter);
 
         if (dotStack.Count == 0)
         {
-            selectionTransform.gameObject.SetActive(false);
+            SetSelectionTransformState();
         }
-        OnLineCleared?.Invoke(dot.Position, destroyCounter);
+    }
+
+    private void SetSelectionTransformState()
+    {
+        Dot[] dots = FindObjectsOfType<Dot>();
+
+        foreach (Dot randomDot in dots)
+        {
+            if (randomDot.IsDirty == false)
+            {
+                SelectFirstDot(randomDot);
+                return;
+            }
+        }
+        selectionTransform.gameObject.SetActive(false);
     }
 }

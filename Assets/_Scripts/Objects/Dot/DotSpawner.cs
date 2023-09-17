@@ -21,8 +21,8 @@ public class DotSpawner : MonoBehaviour
         GameManager.OnGameUnpaused += GameManager_OnGameUnpaused;
         GameManager.OnDifficultyChanged += GameManager_OnDifficultyChanged;
         GameManager.OnDotsSpawn += GameManager_OnDotsSpawn;
-        
-        SpawnMultipleDots(10);
+
+        SpawnMultipleDots(5);
         spawnRoutine = StartCoroutine(SpawnRoutine());
     }
     private void OnDestroy()
@@ -53,7 +53,7 @@ public class DotSpawner : MonoBehaviour
     }
     private void GameManager_OnGamePaused()
     {
-        this.enabled = false;  
+        this.enabled = false;
         StopCoroutine(spawnRoutine);
     }
     private void GameManager_OnGameUnpaused()
@@ -81,8 +81,8 @@ public class DotSpawner : MonoBehaviour
             if (elapsedTime > time)
             {
                 elapsedTime = 0;
-                if (dotList.Count < spawnAttr.spawnLimit)
-                    SpawnDot();
+
+                SpawnDot();
             }
 
             elapsedTime += Time.fixedDeltaTime;
@@ -98,13 +98,16 @@ public class DotSpawner : MonoBehaviour
     }
     private void SpawnDot()
     {
-        float randomSpeed = UnityEngine.Random.Range(spawnAttr.baseSpeed, spawnAttr.baseSpeed + spawnAttr.speedRange);
+        if (dotList.Count < spawnAttr.spawnLimit)
+        {
+            float randomSpeed = UnityEngine.Random.Range(spawnAttr.baseSpeed, spawnAttr.baseSpeed + spawnAttr.speedRange);
 
-        Transform newDotTransform = Instantiate(dotPrefab, boundingBox.GetRandomPos(), Quaternion.identity);
-        Dot dot = newDotTransform.GetComponent<Dot>();
-        dot.Initialize(newDotTransform, boundingBox, randomSpeed);
+            Transform newDotTransform = Instantiate(dotPrefab, boundingBox.GetRandomPos(), Quaternion.identity);
+            Dot dot = newDotTransform.GetComponent<Dot>();
+            dot.Initialize(newDotTransform, boundingBox, randomSpeed);
 
-        dotList.Add(dot);
+            dotList.Add(dot);
+        }
     }
 
     private void OnDrawGizmos()
