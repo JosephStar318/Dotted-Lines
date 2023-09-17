@@ -28,12 +28,19 @@ public class ScoreManager : MonoBehaviour
     private void OnEnable()
     {
         DottedLine.OnLineCleared += DottedLine_OnLineCleared;
+        GameManager.OnGameStarted += GameManager_OnGameStarted;
     }
     private void OnDisable()
     {
         DottedLine.OnLineCleared -= DottedLine_OnLineCleared;
+        GameManager.OnGameStarted -= GameManager_OnGameStarted;
     }
-   
+    private void GameManager_OnGameStarted()
+    {
+        Score = 0;
+        OnScoreChanged?.Invoke(Score);
+    }
+
     private void DottedLine_OnLineCleared(Vector2 position, int count)
     {
         int calculatedScore = CalculateScore(count);

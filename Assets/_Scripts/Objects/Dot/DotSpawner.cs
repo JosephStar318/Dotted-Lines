@@ -10,28 +10,30 @@ public class DotSpawner : MonoBehaviour
     [SerializeField] private SpawnAttr spawnAttr;
 
     private List<Dot> dotList;
-    private bool _isGameOver;
+    private Coroutine spawnRoutine;
     private void Start()
     {
         dotList = new List<Dot>(spawnAttr.spawnLimit);
         Dot.OnDestroy += Dot_OnDestroy;
         GameManager.OnGameOver += GameManager_OnGameOver;
+        GameManager.OnGamePaused += GameManager_OnGamePaused;
+        GameManager.OnGameUnpaused += GameManager_OnGameUnpaused;
         GameManager.OnDifficultyChanged += GameManager_OnDifficultyChanged;
 
         SpawnMultipleDots(10);
-        StartCoroutine(SpawnRoutine());
+        spawnRoutine = StartCoroutine(SpawnRoutine());
     }
     private void OnDestroy()
     {
         Dot.OnDestroy -= Dot_OnDestroy;
         GameManager.OnGameOver -= GameManager_OnGameOver;
+        GameManager.OnGamePaused -= GameManager_OnGamePaused;
+        GameManager.OnGameUnpaused -= GameManager_OnGameUnpaused;
         GameManager.OnDifficultyChanged -= GameManager_OnDifficultyChanged;
     }
 
     private void FixedUpdate()
     {
-        if (_isGameOver) return;
-
         foreach (Dot dot in dotList)
         {
             dot.Move();
@@ -39,8 +41,18 @@ public class DotSpawner : MonoBehaviour
     }
     private void GameManager_OnGameOver()
     {
-        _isGameOver = true;
-        StopAllCoroutines();
+        this.enabled = false;
+        StopCoroutine(spawnRoutine);
+    }
+    private void GameManager_OnGamePaused()
+    {
+        this.enabled = false;  
+        StopCoroutine(spawnRoutine);
+    }
+    private void GameManager_OnGameUnpaused()
+    {
+        this.enabled = true;
+        spawnRoutine = StartCoroutine(SpawnRoutine());
     }
     private void GameManager_OnDifficultyChanged(int difficultyIndex)
     {

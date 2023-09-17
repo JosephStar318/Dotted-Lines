@@ -13,19 +13,21 @@ public class UIManager : MonoBehaviour
         panelDictionary.Clear();
 
         panelDictionary.Add(typeof(GameOverPanel), FindObjectOfType<GameOverPanel>());
+        panelDictionary.Add(typeof(PausePanel), FindObjectOfType<PausePanel>());
 
     }
-    public static void Show<T>() where T : Panel
+    public static void Open<T>() where T : Panel
     {
         foreach (var panelEntry in panelDictionary)
         {
             if (panelEntry.Key.Equals(typeof(T))) continue;
 
-            panelEntry.Value.Hide();
+            if(panelEntry.Value.IsActive)
+                panelEntry.Value.Hide();
         }
         panelDictionary[typeof(T)].Show();
     }
-    public static void Hide<T>() where T : Panel
+    public static void Close<T>() where T : Panel
     {
         panelDictionary[typeof(T)].Hide();
     }

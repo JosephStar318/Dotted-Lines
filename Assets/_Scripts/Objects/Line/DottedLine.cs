@@ -23,8 +23,20 @@ public class DottedLine : MonoBehaviour
     private float elapsedLerpTime = 0;
 
     public List<Vector3> GetPoints => points;
-    private void OnEnable() => Dot.OnClicked += Dot_OnClicked;
-    private void OnDisable() => Dot.OnClicked -= Dot_OnClicked;
+    private void OnEnable()
+    {
+        GameManager.OnGameOver += GameManager_OnGameOver;
+        Dot.OnClicked += Dot_OnClicked;
+    }
+    private void OnDisable()
+    {
+        GameManager.OnGameOver -= GameManager_OnGameOver;
+        Dot.OnClicked -= Dot_OnClicked;
+    }
+    private void GameManager_OnGameOver()
+    {
+        this.enabled = false;
+    }
     private void FixedUpdate()
     {
         UpdatePositions();

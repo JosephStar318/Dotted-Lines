@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static event Action OnGameStarted;
     public static event Action OnGameOver;
     public static event Action<int> OnDifficultyChanged;
     public static event Action OnGamePaused;
@@ -55,21 +56,31 @@ public class GameManager : MonoBehaviour
     private void LineCollisionChecker_OnLineCollision(Vector2 pos)
     {
         Debug.Log("Game over");
-        UIManager.Show<GameOverPanel>();
+        UIManager.Open<GameOverPanel>();
         OnGameOver?.Invoke();
     }
     public void PauseGame()
     {
-
+        UIManager.Open<PausePanel>();
         OnGamePaused?.Invoke();
     }
     public void UnpauseGame()
     {
-
+        UIManager.Close<PausePanel>();
         OnGameUnpaused?.Invoke();
     }
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void ReturnMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void StartGame()
+    {
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync("Game");
+        loadOp.completed += (ap) => OnGameStarted.Invoke();
+        difficultyIndex = 0;
     }
 }
