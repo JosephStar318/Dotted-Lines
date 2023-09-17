@@ -10,6 +10,7 @@ public class DottedLine : MonoBehaviour
 
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform selectionTransform;
+    [SerializeField] private LayerMask dotLayer;
 
     private List<EdgeCollider2D> edgeColliders = new List<EdgeCollider2D>();
 
@@ -18,20 +19,24 @@ public class DottedLine : MonoBehaviour
 
     private Queue<Dot> targetDotQueue = new Queue<Dot>();
     private Dot targetDot;
+    private Dot secondLastDot;
 
     [SerializeField] private float targetLerpTime = 0.5f;
     private float elapsedLerpTime = 0;
 
     public List<Vector3> GetPoints => points;
+
     private void OnEnable()
     {
         GameManager.OnGameOver += GameManager_OnGameOver;
         Dot.OnClicked += Dot_OnClicked;
+        InputHelper.OnSwipe += InputHelper_OnSwipe;
     }
     private void OnDisable()
     {
         GameManager.OnGameOver -= GameManager_OnGameOver;
         Dot.OnClicked -= Dot_OnClicked;
+        InputHelper.OnSwipe -= InputHelper_OnSwipe;
     }
     private void GameManager_OnGameOver()
     {
@@ -73,6 +78,7 @@ public class DottedLine : MonoBehaviour
                 }
                 else
                 {
+                    secondLastDot = dotStack.Peek();
                     dotStack.Push(targetDot);
                     OnDotStackPushed?.Invoke();
                 }
@@ -115,7 +121,7 @@ public class DottedLine : MonoBehaviour
         }
 
         //remove dirty colliders
-        if(edgeColliders.Count > 0 && edgeColliders.Count > points2D.Count - 1)
+        if (edgeColliders.Count > 0 && edgeColliders.Count > points2D.Count - 1)
         {
             int startIndex = points2D.Count - 1;
             int count = edgeColliders.Count - startIndex;
@@ -137,13 +143,30 @@ public class DottedLine : MonoBehaviour
             dotStack.Push(dot);
             OnDotStackPushed?.Invoke();
         }
-        else
+    }
+    private void InputHelper_OnSwipe(Vector2 dir)
+    {
+        if (dotStack.Count == 0) return;
+        Dot lastDot = dotStack.Peek();
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(lastDot.Position, 0.1f, dir, 100, dotLayer);
+        if (hits.Length > 0)
         {
-            Dot lastDot = dotStack.Peek();
+            Dot dot = hits[0].transform.GetComponent<Dot>();
+            if(dot == lastDot && hits.Length > 1)
+            {
+                dot = hits[1].transform.GetComponent<Dot>();
+            }
+
+            //constraints
             if (dot == lastDot || dot == targetDot)
             {
                 return;
             }
+            if(secondLastDot != null && secondLastDot == dot)
+            {
+                return;
+            }
+
             if (targetDot == null)
             {
                 targetDot = dot;

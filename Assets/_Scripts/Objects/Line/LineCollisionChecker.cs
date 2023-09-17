@@ -13,21 +13,19 @@ public class LineCollisionChecker : MonoBehaviour
 
     private RaycastHit2D[] results = new RaycastHit2D[3];
 
-    private void OnEnable()
+    private void Start()
     {
+        _dottedLine = GetComponent<DottedLine>();
+
         GameManager.OnGameOver += GameManager_OnGameOver;
         GameManager.OnGamePaused += GameManager_OnGamePaused;
         GameManager.OnGameUnpaused += GameManager_OnGameUnpaused;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameManager.OnGameOver -= GameManager_OnGameOver;
         GameManager.OnGamePaused -= GameManager_OnGamePaused;
         GameManager.OnGameUnpaused -= GameManager_OnGameUnpaused;
-    }
-    private void Start()
-    {
-        _dottedLine = GetComponent<DottedLine>();
     }
     private void FixedUpdate()
     {

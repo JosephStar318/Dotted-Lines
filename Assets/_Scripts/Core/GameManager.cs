@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     public static event Action<int> OnDifficultyChanged;
     public static event Action OnGamePaused;
     public static event Action OnGameUnpaused;
+    public static event Action OnDotsSpawn;
     public static GameManager Instance { get; private set; }
-
 
     private int difficultyIndex;
     private void Awake()
@@ -33,13 +33,11 @@ public class GameManager : MonoBehaviour
         LineCollisionChecker.OnLineCollision += LineCollisionChecker_OnLineCollision;
         ScoreManager.OnScoreChanged += ScoreManager_OnScoreChanged;
     }
-
     private void OnDisable()
     {
         LineCollisionChecker.OnLineCollision -= LineCollisionChecker_OnLineCollision;
         ScoreManager.OnScoreChanged -= ScoreManager_OnScoreChanged;
     }
-
     private void ScoreManager_OnScoreChanged(int score)
     {
         int calculatedDifficulty = CalculateDifficulty(score);
@@ -59,6 +57,15 @@ public class GameManager : MonoBehaviour
         UIManager.Open<GameOverPanel>();
         OnGameOver?.Invoke();
     }
+    public void DifficultyUp()
+    {
+        OnDifficultyChanged?.Invoke(10);
+    }
+    public void DotsSpawn()
+    {
+        OnDotsSpawn?.Invoke();
+    }
+
     public void PauseGame()
     {
         UIManager.Open<PausePanel>();
@@ -71,7 +78,9 @@ public class GameManager : MonoBehaviour
     }
     public void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync("Game");
+        loadOp.completed += (ap) => OnGameStarted.Invoke();
+        difficultyIndex = 0;
     }
     public void ReturnMainMenu()
     {

@@ -14,12 +14,14 @@ public class DotSpawner : MonoBehaviour
     private void Start()
     {
         dotList = new List<Dot>(spawnAttr.spawnLimit);
+
         Dot.OnDestroy += Dot_OnDestroy;
         GameManager.OnGameOver += GameManager_OnGameOver;
         GameManager.OnGamePaused += GameManager_OnGamePaused;
         GameManager.OnGameUnpaused += GameManager_OnGameUnpaused;
         GameManager.OnDifficultyChanged += GameManager_OnDifficultyChanged;
-
+        GameManager.OnDotsSpawn += GameManager_OnDotsSpawn;
+        
         SpawnMultipleDots(10);
         spawnRoutine = StartCoroutine(SpawnRoutine());
     }
@@ -30,6 +32,7 @@ public class DotSpawner : MonoBehaviour
         GameManager.OnGamePaused -= GameManager_OnGamePaused;
         GameManager.OnGameUnpaused -= GameManager_OnGameUnpaused;
         GameManager.OnDifficultyChanged -= GameManager_OnDifficultyChanged;
+        GameManager.OnDotsSpawn -= GameManager_OnDotsSpawn;
     }
 
     private void FixedUpdate()
@@ -38,6 +41,10 @@ public class DotSpawner : MonoBehaviour
         {
             dot.Move();
         }
+    }
+    private void GameManager_OnDotsSpawn()
+    {
+        SpawnMultipleDots(10);
     }
     private void GameManager_OnGameOver()
     {
@@ -57,6 +64,7 @@ public class DotSpawner : MonoBehaviour
     private void GameManager_OnDifficultyChanged(int difficultyIndex)
     {
         spawnAttr.baseSpeed += difficultyIndex * 0.1f;
+        spawnAttr.spawnSpeed += difficultyIndex * 0.02f;
     }
 
     private void Dot_OnDestroy(Dot dot)
@@ -67,9 +75,10 @@ public class DotSpawner : MonoBehaviour
     private IEnumerator SpawnRoutine()
     {
         float elapsedTime = 0;
+        float time = 1 / spawnAttr.spawnSpeed;
         while (true)
         {
-            if (elapsedTime > spawnAttr.spawnPeriod)
+            if (elapsedTime > time)
             {
                 elapsedTime = 0;
                 if (dotList.Count < spawnAttr.spawnLimit)
@@ -111,7 +120,7 @@ public class DotSpawner : MonoBehaviour
 [System.Serializable]
 public class SpawnAttr
 {
-    public float spawnPeriod;
+    public float spawnSpeed;
     public float baseSpeed;
     public float speedRange;
     public int spawnLimit;
