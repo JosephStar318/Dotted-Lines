@@ -1082,6 +1082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameVfxData: {fileID: 11400000, guid: db1d7a672b6af304caf5474eabd2edf9, type: 2}
+  colorfulDotMaterial: {fileID: 2100000, guid: f51d752a54842cc4e8d86defa0809437, type: 2}
 --- !u!1 &474023176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1996,7 +1997,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f51d752a54842cc4e8d86defa0809437, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2377,7 +2378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -125, y: -162}
+  m_AnchoredPosition: {x: -94, y: -162}
   m_SizeDelta: {x: 90, y: 109}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1256821508
@@ -3030,7 +3031,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -277, y: -301}
+  m_AnchoredPosition: {x: -252, y: -301}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1599365047

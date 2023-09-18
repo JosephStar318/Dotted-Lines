@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     }
     private int CalculateDifficulty(int score)
     {
-        return Mathf.FloorToInt(score / 100);
+        return Mathf.FloorToInt(Mathf.Log10(score) * 3);
     }
     private void LineCollisionChecker_OnLineCollision(Vector2 pos)
     {

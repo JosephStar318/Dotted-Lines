@@ -29,6 +29,7 @@ public class CameraControls : MonoBehaviour
     {
         virtualCamera.LookAt = intersectionTransform;
         virtualCamera.Follow = intersectionTransform;
+        virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = 0.4f;
     }
     private void DottedLine_OnLineCleared(Vector2 pos, int count)
     {

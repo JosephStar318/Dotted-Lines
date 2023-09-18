@@ -12,6 +12,7 @@ public class ScoreManager : MonoBehaviour
     public int HighScore { get; private set; }
 
     [SerializeField] private int scoreMultiplier;
+    private int ScoreMultiplier { get; set; }
 
     private void Awake()
     {
@@ -30,15 +31,23 @@ public class ScoreManager : MonoBehaviour
     {
         DottedLine.OnLineCleared += DottedLine_OnLineCleared;
         GameManager.OnGameStarted += GameManager_OnGameStarted;
+        GameManager.OnDifficultyChanged += GameManager_OnDifficultyChanged;
+        
     }
     private void OnDisable()
     {
         DottedLine.OnLineCleared -= DottedLine_OnLineCleared;
         GameManager.OnGameStarted -= GameManager_OnGameStarted;
+        GameManager.OnDifficultyChanged -= GameManager_OnDifficultyChanged;
+    }
+    private void GameManager_OnDifficultyChanged(int difficultyIndex)
+    {
+        ScoreMultiplier++;
     }
     private void GameManager_OnGameStarted()
     {
         Score = 0;
+        ScoreMultiplier = scoreMultiplier;
         HighScore = PlayerprefsHelper.GetHighScore();
         OnScoreChanged?.Invoke(Score, HighScore);
     }
@@ -57,6 +66,6 @@ public class ScoreManager : MonoBehaviour
 
     private int CalculateScore(int numberOfDots)
     {
-        return numberOfDots * scoreMultiplier;
+        return numberOfDots * numberOfDots * ScoreMultiplier;
     }
 }

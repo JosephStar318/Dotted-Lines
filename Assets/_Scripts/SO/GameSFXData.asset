@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameSFXData
   m_EditorClassIdentifier: 
   popClips:
-  - {fileID: 8300000, guid: 660d58e6f14256a4ab28b94014dadb9e, type: 3}
-  - {fileID: 8300000, guid: f62e3ce96a3c6a04997a463f60d5f2ef, type: 3}
+  - {fileID: 8300000, guid: 08ae188b0236aa44f8b6f2765e62c43e, type: 3}
+  - {fileID: 8300000, guid: 1f30d288d9228fc4ca2d4240b6c353ab, type: 3}
   scoreClip: {fileID: 8300000, guid: 9a3aa5b57a8af894dbc302da51d5acb8, type: 3}
   failClip: {fileID: 8300000, guid: fda45bf573b060345a61fa5607560cfd, type: 3}
