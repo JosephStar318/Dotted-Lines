@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreText_UI : MonoBehaviour
+public class HighScoreText_UI : MonoBehaviour
 {
-    private TextMeshProUGUI scoreText;
+    private TextMeshProUGUI highScoreText;
 
     private void Start()
     {
-        scoreText = GetComponent<TextMeshProUGUI>();
+        highScoreText = GetComponent<TextMeshProUGUI>();
+        int highScore = PlayerprefsHelper.GetHighScore();
+        highScoreText.SetText($"{highScore}");
+
         ScoreManager.OnScoreChanged += ScoreManager_OnScoreChanged;
     }
     private void OnDestroy()
@@ -18,6 +21,6 @@ public class ScoreText_UI : MonoBehaviour
     }
     private void ScoreManager_OnScoreChanged(int score, int highScore)
     {
-        scoreText.SetText(score.ToString());
+        highScoreText.SetText($"{highScore}");
     }
 }

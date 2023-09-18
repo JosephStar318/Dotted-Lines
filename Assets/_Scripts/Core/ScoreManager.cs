@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static event Action<int> OnScoreChanged;
+    public static event Action<int, int> OnScoreChanged;
     public static event Action<Vector2, int> OnScoreCalculated;
     public static ScoreManager Instance { get; private set; }
     public int Score { get; private set; }
+    public int HighScore { get; private set; }
 
     [SerializeField] private int scoreMultiplier;
 
@@ -38,7 +39,8 @@ public class ScoreManager : MonoBehaviour
     private void GameManager_OnGameStarted()
     {
         Score = 0;
-        OnScoreChanged?.Invoke(Score);
+        HighScore = PlayerprefsHelper.GetHighScore();
+        OnScoreChanged?.Invoke(Score, HighScore);
     }
 
     private void DottedLine_OnLineCleared(Vector2 position, int count)
@@ -47,7 +49,10 @@ public class ScoreManager : MonoBehaviour
         OnScoreCalculated?.Invoke(position, calculatedScore);
 
         Score += calculatedScore;
-        OnScoreChanged?.Invoke(Score);
+        HighScore = Mathf.Max(Score, HighScore);
+
+        PlayerprefsHelper.SetHighScore(HighScore);
+        OnScoreChanged?.Invoke(Score, HighScore);
     }
 
     private int CalculateScore(int numberOfDots)

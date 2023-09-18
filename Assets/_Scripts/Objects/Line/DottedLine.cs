@@ -11,6 +11,7 @@ public class DottedLine : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform selectionTransform;
     [SerializeField] private LayerMask dotLayer;
+    [Range(0,1)][SerializeField] private float estimationDistanceWeight;
 
     private List<EdgeCollider2D> edgeColliders = new List<EdgeCollider2D>();
 
@@ -58,7 +59,7 @@ public class DottedLine : MonoBehaviour
     private void UpdatePositions()
     {
         points.Clear();
-        if (targetDot != null)
+        if (targetDot != null && Vector2.Distance(selectionTransform.position, dotStack.Peek().Position) > 0.2f)
             points.Add(selectionTransform.position);
 
         foreach (var dot in dotStack)
@@ -128,7 +129,7 @@ public class DottedLine : MonoBehaviour
         //remove dirty colliders
         if (edgeColliders.Count > 0 && edgeColliders.Count > points2D.Count - 1)
         {
-            int startIndex = points2D.Count - 1;
+            int startIndex = Mathf.Clamp(points2D.Count - 1, 0 ,points2D.Count);
             int count = edgeColliders.Count - startIndex;
             List<EdgeCollider2D> redundantColliders = edgeColliders.GetRange(startIndex, count);
             foreach (var coll in redundantColliders)
@@ -173,7 +174,7 @@ public class DottedLine : MonoBehaviour
     {
         Dot lastDot = dotStack.Peek();
         dot = null;
-        float minEstimation = float.MaxValue;
+        float minDotEstimation = float.MaxValue;
         Dot estimatedDot = null;
 
         RaycastHit2D[] hits = Physics2D.CircleCastAll(lastDot.Position, 0.5f, dir, 100, dotLayer);
@@ -196,19 +197,18 @@ public class DottedLine : MonoBehaviour
 
                 float angle = Vector2.Angle(dot.Position - lastDot.Position, dir);
                 //Make sure dot is in the direction
-                if (angle > 10)
+                if (angle > 20)
                 {
                     continue;
                 }
 
                 //Take most inline of the closest dots
-
                 float distance = Vector2.Distance(dot.Position, lastDot.Position);
-                float estimation = angle * 0.2f + distance * 0.8f; // distance oriented
+                float dotEstimation = angle * (1- estimationDistanceWeight) + distance * estimationDistanceWeight;
 
-                if (estimation < minEstimation)
+                if (dotEstimation < minDotEstimation)
                 {
-                    minEstimation = estimation;
+                    minDotEstimation = dotEstimation;
                     estimatedDot = dot;
                 }
 

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private int difficultyIndex;
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -38,18 +38,18 @@ public class GameManager : MonoBehaviour
         LineCollisionChecker.OnLineCollision -= LineCollisionChecker_OnLineCollision;
         ScoreManager.OnScoreChanged -= ScoreManager_OnScoreChanged;
     }
-    private void ScoreManager_OnScoreChanged(int score)
+    private void ScoreManager_OnScoreChanged(int score, int highScore)
     {
         int calculatedDifficulty = CalculateDifficulty(score);
         if (difficultyIndex != calculatedDifficulty)
-        { 
+        {
             difficultyIndex = calculatedDifficulty;
             OnDifficultyChanged?.Invoke(difficultyIndex);
         }
     }
     private int CalculateDifficulty(int score)
     {
-        return Mathf.FloorToInt( score / 100);
+        return Mathf.FloorToInt(score / 100);
     }
     private void LineCollisionChecker_OnLineCollision(Vector2 pos)
     {
@@ -78,18 +78,27 @@ public class GameManager : MonoBehaviour
     }
     public void RestartGame()
     {
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync("Game");
-        loadOp.completed += (ap) => OnGameStarted.Invoke();
-        difficultyIndex = 0;
+        StartCoroutine(Delay.Seconds(0.5f, () =>
+        {
+            AsyncOperation loadOp = SceneManager.LoadSceneAsync("Game");
+            loadOp.completed += (ap) => OnGameStarted.Invoke();
+            difficultyIndex = 0;
+        }));
     }
     public void ReturnMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        StartCoroutine(Delay.Seconds(0.5f, () =>
+        {
+            SceneManager.LoadScene("MainMenu");
+        }));
     }
     public void StartGame()
     {
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync("Game");
-        loadOp.completed += (ap) => OnGameStarted.Invoke();
-        difficultyIndex = 0;
+        StartCoroutine(Delay.Seconds(0.5f, () =>
+        {
+            AsyncOperation loadOp = SceneManager.LoadSceneAsync("Game");
+            loadOp.completed += (ap) => OnGameStarted.Invoke();
+            difficultyIndex = 0;
+        }));
     }
 }
